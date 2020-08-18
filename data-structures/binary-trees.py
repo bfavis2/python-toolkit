@@ -161,6 +161,7 @@ class BinaryTree():
         queue = Queue()
         queue.enqueue(node)
         traversal = []
+        
         while len(queue) > 0:
             node = queue.dequeue()
             stack.push(node)
@@ -169,12 +170,34 @@ class BinaryTree():
             if node.left:
                 queue.enqueue(node.left)
 
-            
         while len(stack) > 0:
             node = stack.pop()
             traversal.append(node.value)
         return traversal
         
+    def height(self, node):
+        if not node:
+            return -1
+        return 1 + max(self.height(node.left), self.height(node.right))
+    
+    def num_nodes(self):
+        return len(self.preorder_traverse(self.root))
+    
+    def is_balanced(self, node):
+        'Balanced if for every node, a subtree\'s height does not differ by more than 1'
+        if not node:
+            return True
+        
+        left_height = self.height(node.left)
+        right_height = self.height(node.right)
+        
+        if (abs(right_height - left_height) <= 1
+               and self.is_balanced(node.left)
+               and self.is_balanced(node.right)):
+            return True
+        return False
+    
+    
 #%% Testing
 #             1
 #        2        3
@@ -193,3 +216,10 @@ print(tree.print_tree('inorder'))           # 8-4-9-2-10-5-1-6-3-7
 print(tree.print_tree('postorder'))         # 8-9-4-10-5-2-6-7-3-1
 print(tree.print_tree('levelorder'))        # 1-2-3-4-5-6-7-8-9-10
 print(tree.print_tree('reverseorder'))      # 8-9-10-4-5-6-7-2-3-1    
+
+print(tree.height(tree.root))               # 3
+print(tree.height(tree.root.left.right))    # 1
+print(tree.height(tree.root.right.right))   # 0
+print(tree.num_nodes())                     # 10
+
+print(tree.is_balanced(tree.root))          # True
