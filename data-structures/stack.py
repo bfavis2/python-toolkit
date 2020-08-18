@@ -12,6 +12,9 @@ class Stack():
     def __init__(self):
         self.items = []
         
+    def __len__(self):
+        return len(self.items)
+    
     def push(self, item):
         'Add an item to the top of the stack'
         self.items.append(item)
