@@ -13,7 +13,7 @@ class Node():
         self.data = data
         self.next = None
         
-class LinkedList:
+class SinglyLinkedList:
     def __init__(self):
         self.head = None
         
@@ -73,9 +73,31 @@ class LinkedList:
             split_end = self[index + 1]
             split_start.next = split_end
             return old_node
+
+class CircularLinkedList(SinglyLinkedList):
+    'A singly linked list where the last node points back to the head'
+    def append(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node
+            self.head.next = self.head
+        else:
+            last_node = self.head
+            while last_node.next != self.head:
+                last_node = last_node.next
+            last_node.next = new_node
+            new_node.next = self.head
+            
+    def print_list(self):
+        print(self.head)
+        cur_node = self.head.next
+        while cur_node != self.head:
+            print(cur_node)
+            cur_node = cur_node.next
+        
         
 #%% Testing
-ll = LinkedList()
+ll = SinglyLinkedList()
 ll.append(1)
 ll.append(2)
 ll.append(3)
